@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NTC Online Examination Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ✅ ADDED: Lexend font (only used for technoSoft brand text) -->
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    /* ✅ ADDED: Fix overflow issue (inputs/buttons won't go out of box) */
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: white;
+        min-height: 100vh;
+        padding: 30px;
+    }
+
+    .main {
+        max-width: 650px;
+        margin: auto;
+        background: rgba(255,255,255,0.06);
+        padding: 40px;
+        border-radius: 25px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 28px;
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+
+    h3 {
+        text-align: center;
+        margin-top: 0;
+        font-weight: 400;
+        opacity: 0.85;
+    }
+
+    .section {
+        margin-top: 25px;
+        background: rgba(255,255,255,0.08);
+        padding: 20px;
+        border-radius: 15px;
+    }
+
+    label {
+        display: block;
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        margin-top: 5px;
+        outline: none;
+    }
+
+    #signinBtn {
+        width: 100%;
+        margin-top: 20px;
+        padding: 12px;
+        background: #38bdf8;
+        border: none;
+        border-radius: 10px;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #000;
+    }
+
+    #linkBtn {
+        display: none;
+        margin-top: 20px;
+        padding: 12px;
+        background: #22c55e;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 17px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    #errorBox {
+        margin-top: 15px;
+        padding: 12px;
+        background: rgba(255,0,0,0.18);
+        border-left: 4px solid #ef4444;
+        border-radius: 8px;
+        display: none;
+        font-size: 14px;
+    }
+
+    #countdown {
+        text-align: center;
+        font-size: 20px;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #38bdf8;
+    }
+
+    .brand {
+        text-align: right;
+        margin-top: 20px;
+        font-size: 12px;
+        opacity: 0.7;
+
+        /* ✅ Lexend font only for technoSoft */
+        font-family: "Lexend", "Segoe UI", Arial, sans-serif;
+    }
+
+    /* ==========================
+       ✅ ADDED: Candidate Photo Capture UI styles
+       ========================== */
+    #photoCaptureBox {
+        margin-top: 12px;
+        margin-bottom: 18px;
+        padding: 14px;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.06);
+    }
+
+    #captureBtn {
+        width: 100%;
+        padding: 12px;
+        background: #fbbf24;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #000;
+    }
+
+    #camVideo, #capturedPhoto {
+        width: 100%;
+        margin-top: 12px;
+        border-radius: 12px;
+        border: 2px solid rgba(255,255,255,0.2);
+        object-fit: cover;
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="main">
+
+    <h1>NTC Online Examination Portal</h1>
+    <h3>National Testing Commission (Engineering Division)</h3>
+
+    <div id="countdown"></div>
+
+    <!-- Exam Details -->
+    <div class="section">
+        <h2 style="margin-top:0;">📘 Examination Details</h2>
+        <p><b>Examination Name:</b> Engineering Entrance Examination</p>
+        <p><b>Examination Code:</b> <span style="color:#38bdf8;">EEE001-CSE&IT</span></p>
+        <p><b>Examination Date:</b> <span style="color:#38bdf8;">14 January 2026</span></p>
+        <p><b>Examination Time:</b> <span style="color:#38bdf8;">10:00 AM – 12:00 PM</span></p>
+        <p><b>Mode:</b> Online Secure Assessment</p>
+        <p><b>Total Duration:</b> 120 minutes</p>
+    </div>
+
+    <!-- Instructions -->
+    <div class="section">
+        <h2 style="margin-top:0;">📝 Important Instructions</h2>
+        <ul>
+            <li>Sign in using your valid <b>Shiksha ID</b> and <b>OTEP</b>.</li>
+            <li>The OTEP is generated based on the format <b>DDMMYYYY</b>.</li>
+            <li>The examination link will activate strictly at <b>10:00 AM on 14.01.2026</b>.</li>
+            <li>Late entry after the start time is not permitted.</li>
+            <li>Do not refresh or close the browser during the examination.</li>
+            <li>Ensure a stable and uninterrupted internet connection.</li>
+        </ul>
+    </div>
+
+    <!-- Login Section -->
+    <div class="section">
+        <h2 style="margin-top:0;">🔐 Candidate Sign In</h2>
+
+        <!-- ✅ Photo Capture (Before Sign-in Form) -->
+        <div id="photoCaptureBox">
+            <button id="captureBtn" type="button">Capture Photo</button>
+
+            <video id="camVideo" autoplay playsinline></video>
+            <canvas id="camCanvas" style="display:none;"></canvas>
+            <img id="capturedPhoto" />
+        </div>
+
+        <label>Shiksha ID</label>
+        <input type="text" id="shikshaId" placeholder="Enter your Shiksha ID">
+
+        <label>OTEP (One-Time Examination Password)</label>
+        <input type="password" id="otep" placeholder="DDMMYYYY">
+
+        <button id="signinBtn" onclick="signin()">Sign In</button>
+
+        <div id="errorBox"></div>
+
+        <div id="linkBtn" onclick="openExam()">Open Examination</div>
+    </div>
+
+    <div class="brand">technoSoft</div>
+
+</div>
+
+<script>
+    /* Authorized Credentials */
+    const correctID = "NTC980320";
+    const correctOTEP = "20031998";
+
+    /* Examination Opening Time → 14 JAN 2026, 10:00 AM */
+    const examOpenDate = new Date("2026-01-14T10:00:00");
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const dist = examOpenDate - now;
+
+        if (dist <= 0) {
+            document.getElementById("countdown").innerHTML = "✔ Examination is LIVE now!";
+            return;
+        }
+
+        const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+        const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((dist % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML =
+            `${d}d : ${h}h : ${m}m : ${s}s`;
+    }
+    setInterval(updateCountdown, 1000);
+
+    function signin() {
+        const id = document.getElementById("shikshaId").value.trim();
+        const otp = document.getElementById("otep").value.trim();
+        const errorBox = document.getElementById("errorBox");
+        const linkBtn = document.getElementById("linkBtn");
+
+        if (id === correctID && otp === correctOTEP) {
+            errorBox.style.display = "none";
+            linkBtn.style.display = "block";
+        } else {
+            linkBtn.style.display = "none";
+            errorBox.style.display = "block";
+            errorBox.innerHTML = "❌ Invalid Shiksha ID or OTEP. Please try again.";
+        }
+    }
+
+    function openExam() {
+        const now = new Date();
+        const errorBox = document.getElementById("errorBox");
+
+        if (now >= examOpenDate) {
+            window.open("https://gemini.google.com/share/dd846d0e3815", "_blank");
+        } else {
+            errorBox.style.display = "block";
+            errorBox.innerHTML =
+                "⚠️ The examination will open on <b>14.01.2026 at 10:00 AM</b>. Please try again later.";
+        }
+    }
+
+    /* ==========================
+       ✅ Photo capture logic
+       ========================== */
+    (function () {
+        const captureBtn = document.getElementById("captureBtn");
+        const video = document.getElementById("camVideo");
+        const canvas = document.getElementById("camCanvas");
+        const photo = document.getElementById("capturedPhoto");
+
+        let stream = null;
+        let isCameraOn = false;
+
+        async function startCamera() {
+            stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+                audio: false
+            });
+
+            video.srcObject = stream;
+            video.style.display = "block";
+            photo.style.display = "none";
+
+            await new Promise(resolve => {
+                video.onloadedmetadata = () => resolve();
+            });
+
+            await video.play();
+            isCameraOn = true;
+        }
+
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(t => t.stop());
+                stream = null;
+            }
+            video.srcObject = null;
+            video.style.display = "none";
+            isCameraOn = false;
+        }
+
+        function capturePhoto() {
+            const ctx = canvas.getContext("2d");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            photo.src = canvas.toDataURL("image/png");
+            photo.style.display = "block";
+
+            stopCamera();
+
+            // ✅ remove capture button completely (no space)
+            captureBtn.style.display = "none";
+        }
+
+        captureBtn.addEventListener("click", async () => {
+            try {
+                if (!isCameraOn) {
+                    await startCamera(); // first click -> ON
+                } else {
+                    capturePhoto(); // second click -> capture -> OFF
+                }
+            } catch (err) {
+                console.error(err);
+                stopCamera();
+                alert("Camera access error: " + err.message);
+            }
+        });
+    })();
+</script>
+
+</body>
+</html>

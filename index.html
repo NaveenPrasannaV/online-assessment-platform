@@ -218,7 +218,7 @@
     const correctID = "NTC980320";
     const correctOTEP = "20031998";
 
-    /* ✅ Exam link updated */
+    /* ✅ Exam link */
     const EXAM_LINK = "https://gemini.google.com/share/d22a910890a8";
 
     /* ✅ 5 minutes duration */
@@ -274,6 +274,45 @@
         setTimeout(() => playBeep({ frequency: 350, duration: 450, volume: 0.55, type: "square" }), 760);
     }
 
+    /* ==========================
+       ✅ NEW FEATURE: Fullscreen Lock
+       ========================== */
+    async function enterFullscreen() {
+        try {
+            const el = document.documentElement;
+            if (!document.fullscreenElement) {
+                if (el.requestFullscreen) return el.requestFullscreen();
+                if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen(); // Safari
+            }
+        } catch (e) {
+            console.warn("Fullscreen blocked:", e);
+        }
+    }
+
+    async function exitFullscreen() {
+        try {
+            if (document.fullscreenElement) {
+                if (document.exitFullscreen) return document.exitFullscreen();
+                if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
+            }
+        } catch (e) {
+            console.warn("Exit fullscreen blocked:", e);
+        }
+    }
+
+    let fullscreenLockEnabled = false;
+
+    function enableFullscreenLock() {
+        fullscreenLockEnabled = true;
+
+        document.addEventListener("fullscreenchange", async () => {
+            if (fullscreenLockEnabled && !document.fullscreenElement) {
+                // ✅ user pressed ESC => force fullscreen again
+                await enterFullscreen();
+            }
+        });
+    }
+
     function signin() {
         const id = document.getElementById("shikshaId").value.trim();
         const otp = document.getElementById("otep").value.trim();
@@ -292,6 +331,10 @@
 
     function openExam() {
         const errorBox = document.getElementById("errorBox");
+
+        // ✅ enable fullscreen lock + go fullscreen
+        enableFullscreenLock();
+        enterFullscreen();
 
         // ✅ sound immediately when exam opens
         playExamStartSound();
@@ -328,6 +371,10 @@
 
                 // ✅ loud exam over warning sound
                 playExamOverSound();
+
+                // ✅ release fullscreen lock after exam ends
+                fullscreenLockEnabled = false;
+                exitFullscreen();
 
                 clearInterval(timer);
                 return;

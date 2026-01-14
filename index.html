@@ -9,7 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-    /* ✅ Fix overflow issue (inputs/buttons won't go out of box) */
     * { box-sizing: border-box; }
 
     body {
@@ -102,7 +101,7 @@
         font-size: 14px;
     }
 
-    #countdown {
+    #countdown, #countdown2 {
         text-align: center;
         font-size: 20px;
         margin-top: 10px;
@@ -155,20 +154,21 @@
 <div class="main">
 
     <h1>NTC Online Examination Portal</h1>
-    <h3>National Testing Commission (Engineering Division)</h3>
+    <h3>National Testing Commission</h3>
 
-    <!-- ✅ Exam LIVE now -->
-    <div id="countdown">✔ Examination is LIVE now!</div>
+    <!-- ✅ Top Countdown -->
+    <div id="countdown"></div>
 
     <!-- Exam Details -->
     <div class="section">
         <h2 style="margin-top:0;">📘 Examination Details</h2>
         <p><b>Examination Name:</b> Engineering Entrance Examination</p>
         <p><b>Examination Code:</b> <span style="color:#38bdf8;">EEE001-CSE&IT</span></p>
-        <p><b>Examination Status:</b> <span style="color:#22c55e; font-weight:bold;">LIVE</span></p>
-        <p><b>Total Duration:</b> <span style="color:#fbbf24; font-weight:bold;">5 minutes</span></p>
+        <p><b>Examination Date:</b> <span style="color:#38bdf8;">17 January 2026</span></p>
+        <p><b>Examination Time:</b> <span style="color:#38bdf8;">02:30 PM – 04:30 PM</span></p>
         <p><b>Mode:</b> Online Secure Assessment</p>
-        <p><b>Note:</b> Candidate can take this exam anytime.</p>
+        <p><b>Total Duration:</b> <span style="color:#fbbf24; font-weight:bold;">120 minutes</span></p>
+        <p><b>Note:</b> Exam access is allowed <b>ONLY</b> during the scheduled time window.</p>
     </div>
 
     <!-- Instructions -->
@@ -176,10 +176,11 @@
         <h2 style="margin-top:0;">📝 Important Instructions</h2>
         <ul>
             <li>Sign in using your valid <b>Shiksha ID</b> and <b>OTEP</b>.</li>
-            <li>Capture your photo before starting.</li>
-            <li>Exam duration is strictly <b>5 minutes</b>.</li>
+            <li><b>Photo capture is mandatory</b> before Sign In.</li>
+            <li>The examination link activates strictly at <b>02:30 PM on 17.01.2026</b>.</li>
+            <li>Exam link will be disabled after <b>04:30 PM</b>.</li>
             <li>Do not refresh or close the browser during the examination.</li>
-            <li>Ensure a stable and uninterrupted internet connection.</li>
+            <li>Ensure stable internet connection.</li>
         </ul>
     </div>
 
@@ -187,7 +188,10 @@
     <div class="section">
         <h2 style="margin-top:0;">🔐 Candidate Sign In</h2>
 
-        <!-- ✅ Photo Capture (Before Sign-in Form) -->
+        <!-- ✅ Countdown duplicate inside Candidate Sign In card -->
+        <div id="countdown2"></div>
+
+        <!-- ✅ Photo Capture -->
         <div id="photoCaptureBox">
             <button id="captureBtn" type="button">Capture Photo</button>
 
@@ -219,105 +223,82 @@
     const correctOTEP = "20031998";
 
     /* ✅ Exam link */
-    const EXAM_LINK = "https://gemini.google.com/share/d22a910890a8";
+    const EXAM_LINK = "https://gemini.google.com/share/dd846d0e3815";
 
-    /* ✅ 5 minutes duration */
-    const EXAM_DURATION_MS = 5 * 60 * 1000;
+    /* ✅ Exam Schedule: 17 Jan 2026, 02:30 PM - 04:30 PM */
+    const examStartDateTime = new Date("2026-01-17T14:30:00");
+    const examEndDateTime   = new Date("2026-01-17T16:30:00");
 
-    let examStartTime = null;
-
-    /* ==========================
-       ✅ NEW FEATURE: Exam Sounds
-       ========================== */
-    function playBeep({ frequency = 880, duration = 200, volume = 0.25, type = "sine" } = {}) {
-        try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            const ctx = new AudioContext();
-
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-
-            osc.type = type;
-            osc.frequency.value = frequency;
-            gain.gain.value = volume;
-
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-
-            osc.start();
-            setTimeout(() => {
-                osc.stop();
-                ctx.close();
-            }, duration);
-        } catch (e) {
-            console.warn("Audio blocked or not supported:", e);
-        }
-    }
-
-    // ✅ Exam opened sound
-    function playExamStartSound() {
-        playBeep({ frequency: 950, duration: 180, volume: 0.20, type: "sine" });
-        setTimeout(() => playBeep({ frequency: 1200, duration: 120, volume: 0.18, type: "sine" }), 200);
-    }
-
-    // ✅ 10 seconds remaining warning sound
-    function playTenSecWarningSound() {
-        playBeep({ frequency: 700, duration: 140, volume: 0.35, type: "triangle" });
-        setTimeout(() => playBeep({ frequency: 700, duration: 140, volume: 0.35, type: "triangle" }), 180);
-        setTimeout(() => playBeep({ frequency: 900, duration: 200, volume: 0.40, type: "triangle" }), 380);
-    }
-
-    // ✅ Exam over warning sound
-    function playExamOverSound() {
-        playBeep({ frequency: 350, duration: 300, volume: 0.45, type: "square" });
-        setTimeout(() => playBeep({ frequency: 350, duration: 300, volume: 0.45, type: "square" }), 380);
-        setTimeout(() => playBeep({ frequency: 350, duration: 450, volume: 0.55, type: "square" }), 760);
-    }
+    /* ✅ Photo capture mandatory flag */
+    let isPhotoCaptured = false;
 
     /* ==========================
-       ✅ NEW FEATURE: Fullscreen Lock
+       ✅ Countdown (BEFORE/OPEN/CLOSED)
        ========================== */
-    async function enterFullscreen() {
-        try {
-            const el = document.documentElement;
-            if (!document.fullscreenElement) {
-                if (el.requestFullscreen) return el.requestFullscreen();
-                if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen(); // Safari
-            }
-        } catch (e) {
-            console.warn("Fullscreen blocked:", e);
+    function updateCountdownUI() {
+        const now = new Date().getTime();
+        const start = examStartDateTime.getTime();
+        const end = examEndDateTime.getTime();
+
+        const c1 = document.getElementById("countdown");
+        const c2 = document.getElementById("countdown2");
+
+        // Before exam starts
+        if (now < start) {
+            const dist = start - now;
+
+            const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+            const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((dist % (1000 * 60)) / 1000);
+
+            const msg = `⏳ Exam starts in: ${d}d : ${h}h : ${m}m : ${s}s`;
+            c1.innerHTML = msg;
+            c2.innerHTML = msg;
+            return;
         }
-    }
 
-    async function exitFullscreen() {
-        try {
-            if (document.fullscreenElement) {
-                if (document.exitFullscreen) return document.exitFullscreen();
-                if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
-            }
-        } catch (e) {
-            console.warn("Exit fullscreen blocked:", e);
+        // During exam window
+        if (now >= start && now <= end) {
+            const remaining = end - now;
+
+            const h = Math.floor(remaining / (1000 * 60 * 60));
+            const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((remaining % (1000 * 60)) / 1000);
+
+            const msg = `✅ Exam window OPEN | Closes in: ${h}h : ${m}m : ${s}s`;
+            c1.innerHTML = msg;
+            c2.innerHTML = msg;
+            return;
         }
+
+        // After exam ends
+        const msg = "⛔ Examination window CLOSED (04:30 PM completed)";
+        c1.innerHTML = msg;
+        c2.innerHTML = msg;
     }
 
-    let fullscreenLockEnabled = false;
+    updateCountdownUI();
+    setInterval(updateCountdownUI, 1000);
 
-    function enableFullscreenLock() {
-        fullscreenLockEnabled = true;
-
-        document.addEventListener("fullscreenchange", async () => {
-            if (fullscreenLockEnabled && !document.fullscreenElement) {
-                // ✅ user pressed ESC => force fullscreen again
-                await enterFullscreen();
-            }
-        });
-    }
-
+    /* ==========================
+       ✅ Sign-in logic
+       ========================== */
     function signin() {
         const id = document.getElementById("shikshaId").value.trim();
         const otp = document.getElementById("otep").value.trim();
         const errorBox = document.getElementById("errorBox");
         const linkBtn = document.getElementById("linkBtn");
+
+        // ✅ Photo must be captured first
+        if (!isPhotoCaptured) {
+            linkBtn.style.display = "none";
+            errorBox.style.display = "block";
+            errorBox.style.background = "rgba(255,0,0,0.18)";
+            errorBox.style.borderLeft = "4px solid #ef4444";
+            errorBox.innerHTML = "❌ Photo capture is mandatory before Sign In.";
+            return;
+        }
 
         if (id === correctID && otp === correctOTEP) {
             errorBox.style.display = "none";
@@ -325,66 +306,36 @@
         } else {
             linkBtn.style.display = "none";
             errorBox.style.display = "block";
+            errorBox.style.background = "rgba(255,0,0,0.18)";
+            errorBox.style.borderLeft = "4px solid #ef4444";
             errorBox.innerHTML = "❌ Invalid Shiksha ID or OTEP. Please try again.";
         }
     }
 
+    /* ==========================
+       ✅ Open exam only within time window
+       ========================== */
     function openExam() {
+        const now = new Date().getTime();
+        const start = examStartDateTime.getTime();
+        const end = examEndDateTime.getTime();
         const errorBox = document.getElementById("errorBox");
 
-        // ✅ enable fullscreen lock + go fullscreen
-        enableFullscreenLock();
-        enterFullscreen();
-
-        // ✅ sound immediately when exam opens
-        playExamStartSound();
-
-        // ✅ start exam timer
-        examStartTime = Date.now();
-        const endTime = examStartTime + EXAM_DURATION_MS;
-
-        errorBox.style.display = "block";
-        errorBox.style.background = "rgba(0,255,0,0.12)";
-        errorBox.style.borderLeft = "4px solid #22c55e";
-        errorBox.innerHTML = "✅ Exam Started! You have <b>5 minutes</b>. Opening now...";
-
-        // ✅ open exam link
-        window.open(EXAM_LINK, "_blank");
-
-        // ✅ show remaining time in top
-        const countdown = document.getElementById("countdown");
-
-        let tenSecWarningPlayed = false;
-
-        const timer = setInterval(() => {
-            const now = Date.now();
-            const remaining = endTime - now;
-
-            // ✅ Play warning once at 10 seconds remaining
-            if (!tenSecWarningPlayed && remaining <= 10000 && remaining > 0) {
-                tenSecWarningPlayed = true;
-                playTenSecWarningSound();
-            }
-
-            if (remaining <= 0) {
-                countdown.innerHTML = "⏳ Time Over (5 minutes completed)";
-
-                // ✅ loud exam over warning sound
-                playExamOverSound();
-
-                // ✅ release fullscreen lock after exam ends
-                fullscreenLockEnabled = false;
-                exitFullscreen();
-
-                clearInterval(timer);
-                return;
-            }
-
-            const mm = Math.floor(remaining / (1000 * 60));
-            const ss = Math.floor((remaining % (1000 * 60)) / 1000);
-
-            countdown.innerHTML = `⏱ Remaining Time: ${mm}m : ${ss}s`;
-        }, 1000);
+        if (now >= start && now <= end) {
+            window.open(EXAM_LINK, "_blank");
+        } else if (now < start) {
+            errorBox.style.display = "block";
+            errorBox.style.background = "rgba(255,165,0,0.15)";
+            errorBox.style.borderLeft = "4px solid #f59e0b";
+            errorBox.innerHTML =
+                "⚠️ Exam not started yet.<br>Exam opens at <b>17.01.2026 02:30 PM</b>. Please try again later.";
+        } else {
+            errorBox.style.display = "block";
+            errorBox.style.background = "rgba(255,0,0,0.18)";
+            errorBox.style.borderLeft = "4px solid #ef4444";
+            errorBox.innerHTML =
+                "⛔ Exam window CLOSED.<br>The examination closed at <b>04:30 PM on 17.01.2026</b>.";
+        }
     }
 
     /* ==========================
@@ -439,6 +390,9 @@
 
             stopCamera();
 
+            // ✅ Mark captured
+            isPhotoCaptured = true;
+
             // ✅ remove capture button completely (no space)
             captureBtn.style.display = "none";
         }
@@ -446,9 +400,9 @@
         captureBtn.addEventListener("click", async () => {
             try {
                 if (!isCameraOn) {
-                    await startCamera(); // first click -> ON
+                    await startCamera();
                 } else {
-                    capturePhoto(); // second click -> capture -> OFF
+                    capturePhoto();
                 }
             } catch (err) {
                 console.error(err);

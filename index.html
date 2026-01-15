@@ -21,10 +21,10 @@
     }
 
     .main {
-        max-width: 650px;
+        max-width: 1100px;
         margin: auto;
         background: rgba(255,255,255,0.06);
-        padding: 40px;
+        padding: 35px;
         border-radius: 25px;
         backdrop-filter: blur(12px);
         box-shadow: 0 0 25px rgba(0,0,0,0.4);
@@ -44,11 +44,32 @@
         opacity: 0.85;
     }
 
+    /* ✅ Two-column layout */
+    .grid {
+        margin-top: 20px;
+        display: flex;
+        gap: 22px;
+        align-items: flex-start;
+    }
+
+    .leftCol {
+        flex: 1.1;
+        min-width: 320px;
+    }
+
+    .rightCol {
+        flex: 0.9;
+        min-width: 320px;
+        position: sticky;
+        top: 20px;
+    }
+
     .section {
-        margin-top: 25px;
+        margin-top: 0;
         background: rgba(255,255,255,0.08);
         padding: 20px;
         border-radius: 15px;
+        margin-bottom: 22px;
     }
 
     label {
@@ -113,7 +134,7 @@
 
     .brand {
         text-align: right;
-        margin-top: 20px;
+        margin-top: 10px;
         font-size: 12px;
         opacity: 0.7;
         font-family: "Lexend", "Segoe UI", Arial, sans-serif;
@@ -148,6 +169,13 @@
         object-fit: cover;
         display: none;
     }
+
+    /* ✅ Responsive: Stack layout on small screens */
+    @media (max-width: 900px) {
+        .main { max-width: 700px; }
+        .grid { flex-direction: column; }
+        .rightCol { position: static; }
+    }
 </style>
 </head>
 
@@ -156,63 +184,76 @@
 <div class="main">
 
     <h1>NTC Online Examination Portal</h1>
-    <h3>National Testing Commission (Engineering Division)</h3>
+    <h3>National Testing Commission</h3>
 
     <!-- ✅ Countdown Top -->
     <div id="countdown"></div>
 
-    <!-- Exam Details -->
-    <div class="section">
-        <h2 style="margin-top:0;">📘 Examination Details</h2>
-        <p><b>Examination Name:</b> Engineering Entrance Examination</p>
-        <p><b>Examination Code:</b> <span style="color:#38bdf8;">EEE001-CSE&IT</span></p>
-        <p><b>Examination Date:</b> <span style="color:#38bdf8;">17 January 2026</span></p>
-        <p><b>Examination Time:</b> <span style="color:#38bdf8;">02.30 PM – 04:30 PM</span></p>
-        <p><b>Mode:</b> Online Secure Assessment</p>
-        <p><b>Total Duration:</b> <span style="color:#fbbf24; font-weight:bold;">120 minutes</span></p>
-        <p><b>Note:</b> Exam can be opened strictly within the above time window.</p>
-    </div>
+    <div class="grid">
 
-    <!-- Instructions -->
-    <div class="section">
-        <h2 style="margin-top:0;">📝 Important Instructions</h2>
-        <ul>
-            <li>Sign in using your valid <b>Shiksha ID</b> and <b>OTEP</b>.</li>
-            <li><b>Photo capture is mandatory</b> before Sign In.</li>
-            <li>Exam link activates strictly at <b>02.30 PM on 17.01.2026</b>.</li>
-            <li>Exam link gets disabled after <b>04.30 PM</b>.</li>
-            <li>Do not refresh or close the browser during the examination.</li>
-            <li>Ensure a stable and uninterrupted internet connection.</li>
-        </ul>
-    </div>
+        <!-- ================= LEFT SIDE ================= -->
+        <div class="leftCol">
 
-    <!-- Login Section -->
-    <div class="section">
-        <h2 style="margin-top:0;">🔐 Candidate Sign In</h2>
+            <!-- Exam Details -->
+            <div class="section">
+                <h2 style="margin-top:0;">📘 Examination Details</h2>
+                <p><b>Examination Name:</b> Engineering Entrance Examination</p>
+                <p><b>Examination Code:</b> <span style="color:#38bdf8;">EEE001-CSE&IT</span></p>
+                <p><b>Examination Date:</b> <span style="color:#38bdf8;">17 January 2026</span></p>
+                <p><b>Examination Time:</b> <span style="color:#38bdf8;">02.30 PM – 04:30 PM</span></p>
+                <p><b>Mode:</b> Online Secure Assessment</p>
+                <p><b>Total Duration:</b> <span style="color:#fbbf24; font-weight:bold;">120 minutes</span></p>
+                <p><b>Note:</b> Exam can be opened strictly within the above time window.</p>
+            </div>
 
-        <!-- ✅ Countdown inside Sign-in Card -->
-        <div id="countdown2"></div>
+            <!-- Instructions -->
+            <div class="section">
+                <h2 style="margin-top:0;">📝 Important Instructions</h2>
+                <ul>
+                    <li>Sign in using your valid <b>Shiksha ID</b> and <b>OTEP</b>.</li>
+                    <li><b>Photo capture is mandatory</b> before Sign In.</li>
+                    <li>Exam link activates strictly at <b>02.30 PM on 17.01.2026</b>.</li>
+                    <li>Exam link gets disabled after <b>04.30 PM</b>.</li>
+                    <li>Do not refresh or close the browser during the examination.</li>
+                    <li>Ensure stable and uninterrupted internet connection.</li>
+                </ul>
+            </div>
 
-        <!-- ✅ Photo Capture -->
-        <div id="photoCaptureBox">
-            <button id="captureBtn" type="button">Capture Photo</button>
-
-            <video id="camVideo" autoplay playsinline></video>
-            <canvas id="camCanvas" style="display:none;"></canvas>
-            <img id="capturedPhoto" />
         </div>
 
-        <label>Shiksha ID</label>
-        <input type="text" id="shikshaId" placeholder="Enter your Shiksha ID">
+        <!-- ================= RIGHT SIDE ================= -->
+        <div class="rightCol">
 
-        <label>OTEP (One-Time Examination Password)</label>
-        <input type="password" id="otep" placeholder="DDMMYYYY">
+            <!-- Login Section -->
+            <div class="section">
+                <h2 style="margin-top:0;">🔐 Candidate Sign In</h2>
 
-        <button id="signinBtn" onclick="signin()">Sign In</button>
+                <!-- ✅ Countdown inside Sign-in Card -->
+                <div id="countdown2"></div>
 
-        <div id="errorBox"></div>
+                <!-- ✅ Photo Capture -->
+                <div id="photoCaptureBox">
+                    <button id="captureBtn" type="button">Capture Photo</button>
 
-        <div id="linkBtn" onclick="openExam()">Open Examination</div>
+                    <video id="camVideo" autoplay playsinline></video>
+                    <canvas id="camCanvas" style="display:none;"></canvas>
+                    <img id="capturedPhoto" />
+                </div>
+
+                <label>Shiksha ID</label>
+                <input type="text" id="shikshaId" placeholder="Enter your Shiksha ID">
+
+                <label>OTEP (One-Time Examination Password)</label>
+                <input type="password" id="otep" placeholder="DDMMYYYY">
+
+                <button id="signinBtn" onclick="signin()">Sign In</button>
+
+                <div id="errorBox"></div>
+
+                <div id="linkBtn" onclick="openExam()">Open Examination</div>
+            </div>
+
+        </div>
     </div>
 
     <div class="brand">technoSoft</div>
@@ -238,6 +279,7 @@
     let isPhotoCaptured = false;
     let isSignedIn = false;
     let examSessionRunning = false;
+
     let fullscreenLockEnabled = false;
     let examTimerInterval = null;
 
@@ -283,7 +325,6 @@
 
     // ✅ Loud + long sound (exam over)
     function playExamOverSound() {
-        // Long alarm style (multiple loud beeps)
         const pattern = [
             { f: 400, d: 400, v: 0.6, t: "square" },
             { f: 400, d: 400, v: 0.6, t: "square" },
@@ -336,12 +377,8 @@
     }
 
     /* ==========================
-       ✅ COUNTDOWN (Top + Inside card)
+       ✅ COUNTDOWN (Top + Sign-in)
        ========================== */
-    function formatTime(d, h, m, s) {
-        return `${d}d : ${h}h : ${m}m : ${s}s`;
-    }
-
     function updateCountdownUI() {
         const now = new Date().getTime();
         const start = examStartDateTime.getTime();
@@ -350,7 +387,7 @@
         const c1 = document.getElementById("countdown");
         const c2 = document.getElementById("countdown2");
 
-        // Before starts
+        // ✅ BEFORE EXAM START
         if (now < start) {
             const dist = start - now;
 
@@ -359,13 +396,15 @@
             const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((dist % (1000 * 60)) / 1000);
 
-            const msg = `⏳ Exam starts in: ${formatTime(d,h,m,s)}`;
-            c1.innerHTML = msg;
-            c2.innerHTML = msg;
+            // ✅ show ONLY in top countdown
+            c1.innerHTML = `⏳ Exam starts in: ${d}d : ${h}h : ${m}m : ${s}s`;
+
+            // ✅ DO NOT show in candidate card
+            c2.innerHTML = "";
             return;
         }
 
-        // Window Open
+        // ✅ EXAM WINDOW OPEN
         if (now >= start && now <= end) {
             const remaining = end - now;
 
@@ -374,17 +413,17 @@
             const s = Math.floor((remaining % (1000 * 60)) / 1000);
 
             const msg = `✅ Exam window OPEN | Closes in: ${h}h : ${m}m : ${s}s`;
+
             c1.innerHTML = msg;
             c2.innerHTML = msg;
             return;
         }
 
-        // Window Closed
+        // ✅ EXAM WINDOW CLOSED
         const msg = "⛔ Examination window CLOSED (04:30 PM completed)";
         c1.innerHTML = msg;
         c2.innerHTML = msg;
 
-        // Safety: if window closed, hide open button
         document.getElementById("linkBtn").style.display = "none";
     }
 
@@ -392,7 +431,7 @@
     setInterval(updateCountdownUI, 1000);
 
     /* ==========================
-       ✅ SIGN-IN LOGIC
+       ✅ SIGN-IN
        ========================== */
     function signin() {
         const id = document.getElementById("shikshaId").value.trim();
@@ -401,7 +440,6 @@
         const errorBox = document.getElementById("errorBox");
         const linkBtn = document.getElementById("linkBtn");
 
-        // Photo mandatory
         if (!isPhotoCaptured) {
             isSignedIn = false;
             linkBtn.style.display = "none";
@@ -417,12 +455,12 @@
             isSignedIn = true;
             errorBox.style.display = "none";
 
-            // show open exam only if inside window
             const now = new Date().getTime();
             if (now >= examStartDateTime.getTime() && now <= examEndDateTime.getTime()) {
                 linkBtn.style.display = "block";
             } else {
                 linkBtn.style.display = "none";
+
                 errorBox.style.display = "block";
                 errorBox.style.background = "rgba(255,165,0,0.15)";
                 errorBox.style.borderLeft = "4px solid #f59e0b";
@@ -441,7 +479,7 @@
     }
 
     /* ==========================
-       ✅ OPEN EXAM (Time window + session timer + fullscreen lock + sounds)
+       ✅ OPEN EXAM
        ========================== */
     function openExam() {
         const errorBox = document.getElementById("errorBox");
@@ -449,7 +487,6 @@
         const start = examStartDateTime.getTime();
         const end = examEndDateTime.getTime();
 
-        // Signed in check
         if (!isSignedIn) {
             errorBox.style.display = "block";
             errorBox.style.background = "rgba(255,0,0,0.18)";
@@ -458,7 +495,6 @@
             return;
         }
 
-        // Window check
         if (now < start) {
             errorBox.style.display = "block";
             errorBox.style.background = "rgba(255,165,0,0.15)";
@@ -476,7 +512,6 @@
             return;
         }
 
-        // Prevent double start
         if (examSessionRunning) {
             errorBox.style.display = "block";
             errorBox.style.background = "rgba(255,165,0,0.15)";
@@ -487,24 +522,21 @@
 
         examSessionRunning = true;
 
-        // Fullscreen lock
         enableFullscreenLock();
         enterFullscreen();
 
-        // Exam start sound
+        // ✅ Exam start sound
         playExamStartSound();
 
-        // Open exam link in new tab
+        // ✅ open exam link
         window.open(EXAM_LINK, "_blank");
 
-        // UI message
         errorBox.style.display = "block";
         errorBox.style.background = "rgba(0,255,0,0.12)";
         errorBox.style.borderLeft = "4px solid #22c55e";
         errorBox.innerHTML =
             "✅ Exam Started! Fullscreen enabled.<br>You have <b>120 minutes</b>.";
 
-        // Start session timer
         const sessionStart = Date.now();
         const sessionEnd = sessionStart + EXAM_DURATION_MS;
 
@@ -514,20 +546,19 @@
             const current = Date.now();
             const remaining = sessionEnd - current;
 
-            // 10 sec warning
+            // ✅ 10 seconds warning
             if (!tenSecWarningPlayed && remaining <= 10000 && remaining > 0) {
                 tenSecWarningPlayed = true;
                 playTenSecWarningSound();
             }
 
-            // Over
+            // ✅ End
             if (remaining <= 0) {
                 clearInterval(examTimerInterval);
                 examTimerInterval = null;
 
-                playExamOverSound(); // ✅ loud long sound
+                playExamOverSound();  // ✅ loud long end sound
 
-                // Release fullscreen after exam ends
                 fullscreenLockEnabled = false;
                 exitFullscreen();
 
@@ -538,13 +569,12 @@
                     "⛔ Exam Time Over! <b>120 minutes completed</b>.";
 
                 examSessionRunning = false;
-                return;
             }
         }, 1000);
     }
 
     /* ==========================
-       ✅ PHOTO CAPTURE LOGIC
+       ✅ PHOTO CAPTURE
        ========================== */
     (function () {
         const captureBtn = document.getElementById("captureBtn");

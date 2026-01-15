@@ -1,63 +1,126 @@
-# Online Assessment Platform (NTC Online Examination Portal)
+# iAssess – Online Secure Examination Portal (v2.0)
 
-A modern **Online Secure Assessment Web Application** developed using web technologies to conduct entrance examinations in a structured and secure manner.
-
-This platform provides a complete pre-exam portal including:
-- examination details
-- important instructions
-- candidate sign-in with OTP
-- candidate photo capture before login
+> **A modern, secure, browser-based examination portal UI** designed for scheduled online exams with candidate verification and exam session control.
 
 ---
 
-## 🚀 Features
-
-- ✅ Clean and modern UI (Exam Portal Layout)
-- ✅ Countdown Timer before exam start
-- ✅ Examination Details Panel
-- ✅ Important Instructions Section
-- ✅ Candidate Login using **Shiksha ID + OTP**
-- ✅ Candidate Photo Capture before Sign-In
-- ✅ Responsive design for mobile and desktop
-- ✅ Secure exam flow support
+## 🎯 What is iAssess?
+**iAssess** is an **Online Secure Examination Platform UI** that provides a disciplined exam entry workflow:
+- Scheduled access window
+- Candidate sign-in verification
+- Mandatory camera photo capture
+- Secure fullscreen exam mode
+- Countdown and sound alerts
 
 ---
 
-## 🖥️ Screenshots
+## ✅ Highlights (v2.0)
 
-### Examination Portal UI
-![NTC Online Examination Portal](./assets/portal-ui.png)
+### 🕒 Scheduled Exam Access
+- Exam can be opened **only during the configured time window**
+- Entry blocked **before start time**
+- Access disabled **after end time**
 
-> (You can place your screenshot in `assets/portal-ui.png`)
+### 📷 Candidate Verification
+- **Photo capture is mandatory**
+- Candidate cannot sign-in without capturing photo
+
+### 🔒 Secure Fullscreen Exam Mode
+- Fullscreen auto-enabled at exam start
+- Fullscreen exit attempts are blocked during the session
+- Helps restrict tab switching / leaving the exam environment
+
+### ⏳ Smart Countdown Timers
+- Countdown until exam opens
+- Countdown until exam window closes
+- Displayed in multiple UI locations (header + sign-in area)
+
+### 🔊 Exam Audio Alerts
+- Start sound when exam begins
+- 10-second remaining warning sound
+- Loud, long “time over” sound after exam duration completes
+
+### 🧱 Clean Two-Panel Layout
+- LEFT: Exam details + instructions
+- RIGHT: Candidate Sign-in + photo capture
+- Responsive: switches to single column for mobile/tablet
 
 ---
 
-## 🔐 Candidate Authentication
+## 🧩 Included Files
+```
 
-- Candidate must sign in using:
-  - **Shiksha ID**
-  - **OTEP (One-Time Examination Password)**  
-- OTP is generated in **DDMMYYYY** format.
-- Exam link activates strictly at the given start time.
+index.html
+README.md
 
----
-
-## 🛠️ Tech Stack
-
-- **HTML5**
-- **CSS3**
-- **JavaScript**
-- Web Camera API (for photo capture)
+````
 
 ---
 
-## 📌 Project Purpose
+## ⚙️ Configuration (Use for Any Exam)
+Edit inside `index.html`:
 
-This project was created to simulate a real-world **online examination / assessment system** similar to government or institutional exam portals, with secure access and candidate verification.
+### Exam Schedule Window
+```js
+const examStartDateTime = new Date("YYYY-MM-DDTHH:MM:SS");
+const examEndDateTime   = new Date("YYYY-MM-DDTHH:MM:SS");
+````
+
+### Exam Duration
+
+```js
+const EXAM_DURATION_MS = <minutes> * 60 * 1000;
+```
+
+### Exam Launch URL
+
+```js
+const EXAM_LINK = "<CONFIDENTIAL_EXAM_URL>";
+```
+
+### Candidate Login Credentials
+
+```js
+const correctID   = "<CANDIDATE_ID>";
+const correctOTEP = "<OTEP_PASSWORD>";
+```
 
 ---
 
-## 👨‍💻 Author
+## ▶️ How to Run
 
-Developed by **Naveen**  
-Project: `online-assessment-platform`
+1. Download / clone the project
+2. Open `index.html` in a browser
+3. Allow **Camera Permission**
+4. Sign in → Open Examination
+
+---
+
+## 🌐 Compatibility
+
+✅ Google Chrome
+✅ Microsoft Edge
+
+(Camera + fullscreen features require modern browsers.)
+
+---
+
+## 🔐 Notes (Security)
+
+This is a **frontend-only portal UI**:
+
+* Not production-secure without backend integration
+* Client-side credentials are for demo/simulation
+* Recommended: server-side auth + logging + encrypted exam sessions
+
+---
+
+## 🏢 Developed By
+
+**technoSoft — A Software Company**
+
+***Developed by: Naveen Prasanna***
+
+***Platform:*** iAssess – Online Secure Examination Platform
+
+---

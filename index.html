@@ -28,6 +28,7 @@
         border-radius: 25px;
         backdrop-filter: blur(12px);
         box-shadow: 0 0 25px rgba(0,0,0,0.4);
+        position: relative; /* ✅ helps sticky behave cleanly */
     }
 
     h1 {
@@ -132,6 +133,19 @@
         color: #38bdf8;
     }
 
+    /* ✅ FIX: sticky countdown (no order change, no layout shift) */
+    #countdown{
+        position: sticky;
+        top: 0;                 /* stays visible when scrolling */
+        z-index: 999;
+
+        padding: 10px 10px;
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.55);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+
     .brand {
         text-align: right;
         margin-top: 10px;
@@ -186,7 +200,7 @@
     <h1>NTC Online Examination Portal</h1>
     <h3>National Testing Commission</h3>
 
-    <!-- ✅ Countdown Top -->
+    <!-- ✅ Countdown Top (same position/order, now sticky) -->
     <div id="countdown"></div>
 
     <div class="grid">
@@ -323,7 +337,6 @@
         setTimeout(() => playBeep({ frequency: 850, duration: 240, volume: 0.45, type: "triangle" }), 430);
     }
 
-    // ✅ Loud + long sound (exam over)
     function playExamOverSound() {
         const pattern = [
             { f: 400, d: 400, v: 0.6, t: "square" },
@@ -396,10 +409,7 @@
             const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
             const s = Math.floor((dist % (1000 * 60)) / 1000);
 
-            // ✅ show ONLY in top countdown
             c1.innerHTML = `⏳ Exam starts in: ${d}d : ${h}h : ${m}m : ${s}s`;
-
-            // ✅ DO NOT show in candidate card
             c2.innerHTML = "";
             return;
         }
@@ -525,10 +535,7 @@
         enableFullscreenLock();
         enterFullscreen();
 
-        // ✅ Exam start sound
         playExamStartSound();
-
-        // ✅ open exam link
         window.open(EXAM_LINK, "_blank");
 
         errorBox.style.display = "block";
@@ -546,19 +553,16 @@
             const current = Date.now();
             const remaining = sessionEnd - current;
 
-            // ✅ 10 seconds warning
             if (!tenSecWarningPlayed && remaining <= 10000 && remaining > 0) {
                 tenSecWarningPlayed = true;
                 playTenSecWarningSound();
             }
 
-            // ✅ End
             if (remaining <= 0) {
                 clearInterval(examTimerInterval);
                 examTimerInterval = null;
 
-                playExamOverSound();  // ✅ loud long end sound
-
+                playExamOverSound();
                 fullscreenLockEnabled = false;
                 exitFullscreen();
 
@@ -626,17 +630,15 @@
             stopCamera();
 
             isPhotoCaptured = true;
-
-            // ✅ remove capture button completely
             captureBtn.style.display = "none";
         }
 
         captureBtn.addEventListener("click", async () => {
             try {
                 if (!isCameraOn) {
-                    await startCamera(); // first click -> ON
+                    await startCamera();
                 } else {
-                    capturePhoto(); // second click -> capture -> OFF
+                    capturePhoto();
                 }
             } catch (err) {
                 console.error(err);

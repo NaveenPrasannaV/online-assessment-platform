@@ -216,7 +216,7 @@
                 <p><b>Examination Date:</b> <span style="color:#38bdf8;">20 January 2026</span></p>
 
                 <!-- ✅ UPDATED TIME -->
-                <p><b>Examination Time:</b> <span style="color:#38bdf8;">02:00 PM – 04:00 PM</span></p>
+                <p><b>Examination Time:</b> <span style="color:#38bdf8;">08:00 PM – 10:00 PM</span></p>
 
                 <p><b>Mode:</b> Online Secure Assessment</p>
                 <p><b>Total Duration:</b> <span style="color:#fbbf24; font-weight:bold;">120 minutes</span></p>
@@ -231,8 +231,8 @@
                     <li><b>Photo capture is mandatory</b> before Sign In.</li>
 
                     <!-- ✅ UPDATED WINDOW -->
-                    <li>Exam link activates strictly at <b>02:00 PM on 20.01.2026</b>.</li>
-                    <li>Exam link gets disabled after <b>04:00 PM</b>.</li>
+                    <li>Exam link activates strictly at <b>08:00 PM on 20.01.2026</b>.</li>
+                    <li>Exam link gets disabled after <b>10:00 PM</b>.</li>
 
                     <li>Do not refresh or close the browser during the examination.</li>
                     <li>Ensure stable and uninterrupted internet connection.</li>
@@ -289,9 +289,9 @@
 
     const EXAM_LINK = "https://gemini.google.com/share/dd846d0e3815";
 
-    // ✅ Exam schedule (UPDATED: 20 Jan 2026, 02:00 PM - 04:00 PM)
-    const examStartDateTime = new Date("2026-01-20T14:00:00");
-    const examEndDateTime   = new Date("2026-01-20T16:00:00");
+    // ✅ Exam schedule (UPDATED: 20 Jan 2026, 08:00 PM - 10:00 PM)
+    const examStartDateTime = new Date("2026-01-20T20:00:00");
+    const examEndDateTime   = new Date("2026-01-20T22:00:00");
 
     // ✅ Exam duration after candidate starts
     const EXAM_DURATION_MS = 120 * 60 * 1000; // 120 minutes
@@ -436,7 +436,7 @@
         }
 
         // ✅ EXAM WINDOW CLOSED
-        const msg = "⛔ Examination window CLOSED (04:00 PM completed)";
+        const msg = "⛔ Examination window CLOSED (10:00 PM completed)";
         c1.innerHTML = msg;
         c2.innerHTML = msg;
 
@@ -516,7 +516,7 @@
             errorBox.style.background = "rgba(255,165,0,0.15)";
             errorBox.style.borderLeft = "4px solid #f59e0b";
             errorBox.innerHTML =
-                "⚠️ Exam not started yet.<br>Opens at <b>20.01.2026 02:00 PM</b>.";
+                "⚠️ Exam not started yet.<br>Opens at <b>20.01.2026 08:00 PM</b>.";
             return;
         }
         if (now > end) {
@@ -524,7 +524,7 @@
             errorBox.style.background = "rgba(255,0,0,0.18)";
             errorBox.style.borderLeft = "4px solid #ef4444";
             errorBox.innerHTML =
-                "⛔ Exam window CLOSED.<br>Closed at <b>04:00 PM on 20.01.2026</b>.";
+                "⛔ Exam window CLOSED.<br>Closed at <b>10:00 PM on 20.01.2026</b>.";
             return;
         }
 

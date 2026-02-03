@@ -211,7 +211,7 @@
                 <p><b>Examination Name:</b> Engineering Entrance Examination</p>
                 <p><b>Examination Code:</b> <span style="color:#38bdf8;">EEE001-III</span></p>
 
-                <p><b>Examination Date:</b> <span style="color:#38bdf8;">06 February 2026</span></p>
+                <p><b>Examination Date:</b> <span style="color:#38bdf8;">03 February 2026</span></p>
 
                 <p><b>Examination Time:</b> <span style="color:#38bdf8;">08:00 PM – 10:00 PM</span></p>
 
@@ -226,7 +226,7 @@
                     <li>Sign in using your valid <b>Shiksha ID</b> and <b>OTEP</b>.</li>
                     <li><b>Photo capture is mandatory</b> before Sign In.</li>
                     
-                    <li>Exam link activates strictly at <b>08:00 PM on 06.02.2026</b>.</li>
+                    <li>Exam link activates strictly at <b>08:00 PM on 03.02.2026</b>.</li>
                     <li>Exam link gets disabled after <b>10:00 PM</b>.</li>
 
                     <li>Do not refresh or close the browser during the examination.</li>
@@ -281,10 +281,9 @@
     // ✅ UPDATED EXAM LINK
     const EXAM_LINK = "https://gemini.google.com/share/eaaac3662099";
 
-    // ✅ UPDATED SCHEDULE: 06 Feb 2026, 08:00 PM - 10:00 PM
-    // Note: 20:00 is 8 PM, 22:00 is 10 PM
-    const examStartDateTime = new Date("2026-02-06T20:00:00");
-    const examEndDateTime   = new Date("2026-02-06T22:00:00");
+    // ✅ UPDATED SCHEDULE: TODAY (03 Feb 2026), 08:00 PM - 10:00 PM
+    const examStartDateTime = new Date("2026-02-03T20:00:00");
+    const examEndDateTime   = new Date("2026-02-03T22:00:00");
 
     // ✅ Exam duration after candidate starts
     const EXAM_DURATION_MS = 120 * 60 * 1000; // 120 minutes
@@ -509,7 +508,7 @@
             errorBox.style.background = "rgba(255,165,0,0.15)";
             errorBox.style.borderLeft = "4px solid #f59e0b";
             errorBox.innerHTML = 
-                "⚠️ Exam not started yet.<br>Opens at <b>06.02.2026 08:00 PM</b>.";
+                "⚠️ Exam not started yet.<br>Opens at <b>03.02.2026 08:00 PM</b>.";
             return;
         }
         if (now > end) {
@@ -517,7 +516,7 @@
             errorBox.style.background = "rgba(255,0,0,0.18)";
             errorBox.style.borderLeft = "4px solid #ef4444";
             errorBox.innerHTML = 
-                "⛔ Exam window CLOSED.<br>Closed at <b>10:00 PM on 06.02.2026</b>.";
+                "⛔ Exam window CLOSED.<br>Closed at <b>10:00 PM on 03.02.2026</b>.";
             return;
         }
 

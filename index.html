@@ -137,7 +137,7 @@
         position: sticky;
         top: 0;
         z-index: 999;
-
+        
         padding: 10px 10px;
         border-radius: 12px;
         background: rgba(15, 23, 42, 0.55);
@@ -208,10 +208,10 @@
             <div class="section">
                 <h2 style="margin-top:0;">📘 Examination Details</h2>
 
-                <p><b>Examination Name:</b> Common Eligibility Test – Faculty of Information Technology (FIT)</p>
-                <p><b>Examination Code:</b> <span style="color:#38bdf8;">CET005</span></p>
+                <p><b>Examination Name:</b> Engineering Entrance Examination</p>
+                <p><b>Examination Code:</b> <span style="color:#38bdf8;">EEE001-III</span></p>
 
-                <p><b>Examination Date:</b> <span style="color:#38bdf8;">31 January 2026</span></p>
+                <p><b>Examination Date:</b> <span style="color:#38bdf8;">06 February 2026</span></p>
 
                 <p><b>Examination Time:</b> <span style="color:#38bdf8;">08:00 PM – 10:00 PM</span></p>
 
@@ -225,8 +225,8 @@
                 <ul>
                     <li>Sign in using your valid <b>Shiksha ID</b> and <b>OTEP</b>.</li>
                     <li><b>Photo capture is mandatory</b> before Sign In.</li>
-
-                    <li>Exam link activates strictly at <b>08:00 PM on 31.01.2026</b>.</li>
+                    
+                    <li>Exam link activates strictly at <b>08:00 PM on 06.02.2026</b>.</li>
                     <li>Exam link gets disabled after <b>10:00 PM</b>.</li>
 
                     <li>Do not refresh or close the browser during the examination.</li>
@@ -240,12 +240,12 @@
 
             <div class="section">
                 <h2 style="margin-top:0;">🔐 Candidate Sign In</h2>
-
+                
                 <div id="countdown2"></div>
 
                 <div id="photoCaptureBox">
                     <button id="captureBtn" type="button">Capture Photo</button>
-
+                    
                     <video id="camVideo" autoplay playsinline></video>
                     <canvas id="camCanvas" style="display:none;"></canvas>
                     <img id="capturedPhoto" />
@@ -279,12 +279,12 @@
     const correctOTEP = "20031998";
 
     // ✅ UPDATED EXAM LINK
-    const EXAM_LINK = "https://gemini.google.com/share/db7b7a2e3f55";
+    const EXAM_LINK = "https://gemini.google.com/share/eaaac3662099";
 
-    // ✅ UPDATED SCHEDULE: 31 Jan 2026, 08:00 PM - 10:00 PM
+    // ✅ UPDATED SCHEDULE: 06 Feb 2026, 08:00 PM - 10:00 PM
     // Note: 20:00 is 8 PM, 22:00 is 10 PM
-    const examStartDateTime = new Date("2026-01-31T20:00:00");
-    const examEndDateTime   = new Date("2026-01-31T22:00:00");
+    const examStartDateTime = new Date("2026-02-06T20:00:00");
+    const examEndDateTime   = new Date("2026-02-06T22:00:00");
 
     // ✅ Exam duration after candidate starts
     const EXAM_DURATION_MS = 120 * 60 * 1000; // 120 minutes
@@ -303,7 +303,7 @@
         try {
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             const ctx = new AudioContext();
-
+            
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
 
@@ -402,7 +402,7 @@
         // ✅ BEFORE EXAM START
         if (now < start) {
             const dist = start - now;
-
+            
             const d = Math.floor(dist / (1000 * 60 * 60 * 24));
             const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
@@ -422,7 +422,7 @@
             const s = Math.floor((remaining % (1000 * 60)) / 1000);
 
             const msg = `✅ Exam window OPEN | Closes in: ${h}h : ${m}m : ${s}s`;
-
+            
             c1.innerHTML = msg;
             c2.innerHTML = msg;
             return;
@@ -452,7 +452,7 @@
         if (!isPhotoCaptured) {
             isSignedIn = false;
             linkBtn.style.display = "none";
-
+            
             errorBox.style.display = "block";
             errorBox.style.background = "rgba(255,0,0,0.18)";
             errorBox.style.borderLeft = "4px solid #ef4444";
@@ -469,11 +469,11 @@
                 linkBtn.style.display = "block";
             } else {
                 linkBtn.style.display = "none";
-
+                
                 errorBox.style.display = "block";
                 errorBox.style.background = "rgba(255,165,0,0.15)";
                 errorBox.style.borderLeft = "4px solid #f59e0b";
-                errorBox.innerHTML =
+                errorBox.innerHTML = 
                     "⚠️ Signed in successfully, but exam link is available only during the scheduled time window.";
             }
         } else {
@@ -508,16 +508,16 @@
             errorBox.style.display = "block";
             errorBox.style.background = "rgba(255,165,0,0.15)";
             errorBox.style.borderLeft = "4px solid #f59e0b";
-            errorBox.innerHTML =
-                "⚠️ Exam not started yet.<br>Opens at <b>31.01.2026 08:00 PM</b>.";
+            errorBox.innerHTML = 
+                "⚠️ Exam not started yet.<br>Opens at <b>06.02.2026 08:00 PM</b>.";
             return;
         }
         if (now > end) {
             errorBox.style.display = "block";
             errorBox.style.background = "rgba(255,0,0,0.18)";
             errorBox.style.borderLeft = "4px solid #ef4444";
-            errorBox.innerHTML =
-                "⛔ Exam window CLOSED.<br>Closed at <b>10:00 PM on 31.01.2026</b>.";
+            errorBox.innerHTML = 
+                "⛔ Exam window CLOSED.<br>Closed at <b>10:00 PM on 06.02.2026</b>.";
             return;
         }
 
@@ -533,14 +533,14 @@
 
         enableFullscreenLock();
         enterFullscreen();
-
+        
         playExamStartSound();
         window.open(EXAM_LINK, "_blank");
 
         errorBox.style.display = "block";
         errorBox.style.background = "rgba(0,255,0,0.12)";
         errorBox.style.borderLeft = "4px solid #22c55e";
-        errorBox.innerHTML =
+        errorBox.innerHTML = 
             "✅ Exam Started! Fullscreen enabled.<br>You have <b>120 minutes</b>.";
 
         const sessionStart = Date.now();
@@ -560,7 +560,7 @@
             if (remaining <= 0) {
                 clearInterval(examTimerInterval);
                 examTimerInterval = null;
-
+                
                 playExamOverSound();
                 fullscreenLockEnabled = false;
                 exitFullscreen();
@@ -568,9 +568,9 @@
                 errorBox.style.display = "block";
                 errorBox.style.background = "rgba(255,0,0,0.18)";
                 errorBox.style.borderLeft = "4px solid #ef4444";
-                errorBox.innerHTML =
+                errorBox.innerHTML = 
                     "⛔ Exam Time Over! <b>120 minutes completed</b>.";
-
+                
                 examSessionRunning = false;
             }
         }, 1000);
@@ -589,11 +589,11 @@
         let isCameraOn = false;
 
         async function startCamera() {
-            stream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: false
+            stream = await navigator.mediaDevices.getUserMedia({ 
+                video: true, 
+                audio: false 
             });
-
+            
             video.srcObject = stream;
             video.style.display = "block";
             photo.style.display = "none";

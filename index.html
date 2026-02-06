@@ -4,192 +4,9 @@
 <meta charset="UTF-8">
 <title>NTC Online Examination Portal</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-    * { box-sizing: border-box; }
-
-    body {
-        margin: 0;
-        font-family: "Segoe UI", Arial, sans-serif;
-        background: linear-gradient(135deg, #0f172a, #1e293b);
-        color: white;
-        min-height: 100vh;
-        padding: 30px;
-    }
-
-    .main {
-        max-width: 1100px;
-        margin: auto;
-        background: rgba(255,255,255,0.06);
-        padding: 35px;
-        border-radius: 25px;
-        backdrop-filter: blur(12px);
-        box-shadow: 0 0 25px rgba(0,0,0,0.4);
-        position: relative;
-    }
-
-    h1 {
-        text-align: center;
-        font-size: 28px;
-        margin-bottom: 5px;
-        font-weight: 700;
-    }
-
-    h3 {
-        text-align: center;
-        margin-top: 0;
-        font-weight: 400;
-        opacity: 0.85;
-    }
-
-    /* ✅ Two-column layout */
-    .grid {
-        margin-top: 20px;
-        display: flex;
-        gap: 22px;
-        align-items: flex-start;
-    }
-
-    .leftCol {
-        flex: 1.1;
-        min-width: 320px;
-    }
-
-    .rightCol {
-        flex: 0.9;
-        min-width: 320px;
-        position: sticky;
-        top: 20px;
-    }
-
-    .section {
-        margin-top: 0;
-        background: rgba(255,255,255,0.08);
-        padding: 20px;
-        border-radius: 15px;
-        margin-bottom: 22px;
-    }
-
-    label {
-        display: block;
-        margin-top: 15px;
-        font-size: 14px;
-    }
-
-    input {
-        width: 100%;
-        padding: 12px;
-        border-radius: 10px;
-        border: none;
-        margin-top: 5px;
-        outline: none;
-    }
-
-    #signinBtn {
-        width: 100%;
-        margin-top: 20px;
-        padding: 12px;
-        background: #38bdf8;
-        border: none;
-        border-radius: 10px;
-        font-size: 17px;
-        font-weight: bold;
-        cursor: pointer;
-        color: #000;
-    }
-
-    #linkBtn {
-        display: none;
-        margin-top: 20px;
-        padding: 12px;
-        background: #22c55e;
-        text-align: center;
-        border-radius: 10px;
-        font-size: 17px;
-        font-weight: bold;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    #errorBox {
-        margin-top: 15px;
-        padding: 12px;
-        background: rgba(255,0,0,0.18);
-        border-left: 4px solid #ef4444;
-        border-radius: 8px;
-        display: none;
-        font-size: 14px;
-        line-height: 1.4;
-    }
-
-    #countdown, #countdown2 {
-        text-align: center;
-        font-size: 20px;
-        margin-top: 10px;
-        font-weight: bold;
-        color: #38bdf8;
-    }
-
-    /* ✅ Sticky countdown */
-    #countdown{
-        position: sticky;
-        top: 0;
-        z-index: 999;
-        
-        padding: 10px 10px;
-        border-radius: 12px;
-        background: rgba(15, 23, 42, 0.55);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .brand {
-        text-align: right;
-        margin-top: 10px;
-        font-size: 12px;
-        opacity: 0.7;
-        font-family: "Lexend", "Segoe UI", Arial, sans-serif;
-    }
-
-    /* ✅ Candidate Photo Capture UI styles */
-    #photoCaptureBox {
-        margin-top: 12px;
-        margin-bottom: 18px;
-        padding: 14px;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.06);
-    }
-
-    #captureBtn {
-        width: 100%;
-        padding: 12px;
-        background: #fbbf24;
-        border: none;
-        border-radius: 10px;
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        color: #000;
-    }
-
-    #camVideo, #capturedPhoto {
-        width: 100%;
-        margin-top: 12px;
-        border-radius: 12px;
-        border: 2px solid rgba(255,255,255,0.2);
-        object-fit: cover;
-        display: none;
-    }
-
-    /* ✅ Responsive */
-    @media (max-width: 900px) {
-        .main { max-width: 700px; }
-        .grid { flex-direction: column; }
-        .rightCol { position: static; }
-    }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -202,21 +19,17 @@
     <div id="countdown"></div>
 
     <div class="grid">
-
         <div class="leftCol">
-
             <div class="section">
                 <h2 style="margin-top:0;">📘 Examination Details</h2>
 
-                <p><b>Examination Name:</b> Engineering Entrance Examination</p>
-                <p><b>Examination Code:</b> <span style="color:#38bdf8;">EEE001-III</span></p>
-
-                <p><b>Examination Date:</b> <span style="color:#38bdf8;">03 February 2026</span></p>
-
-                <p><b>Examination Time:</b> <span style="color:#38bdf8;">08:00 PM – 10:00 PM</span></p>
+                <p><b>Examination Name:</b> <span id="disp_examName">Loading...</span></p>
+                <p><b>Examination Code:</b> <span style="color:#38bdf8;" id="disp_examCode">...</span></p>
+                <p><b>Examination Date:</b> <span style="color:#38bdf8;" id="disp_examDate">...</span></p>
+                <p><b>Examination Time:</b> <span style="color:#38bdf8;" id="disp_examTime">...</span></p>
 
                 <p><b>Mode:</b> Online Secure Assessment</p>
-                <p><b>Total Duration:</b> <span style="color:#fbbf24; font-weight:bold;">120 minutes</span></p>
+                <p><b>Total Duration:</b> <span style="color:#fbbf24; font-weight:bold;" id="disp_duration">...</span></p>
                 <p><b>Note:</b> Exam can be opened strictly within the above time window.</p>
             </div>
 
@@ -225,19 +38,14 @@
                 <ul>
                     <li>Sign in using your valid <b>Shiksha ID</b> and <b>OTEP</b>.</li>
                     <li><b>Photo capture is mandatory</b> before Sign In.</li>
-                    
-                    <li>Exam link activates strictly at <b>08:00 PM on 03.02.2026</b>.</li>
-                    <li>Exam link gets disabled after <b>10:00 PM</b>.</li>
-
+                    <li>Exam link activates strictly at <b id="disp_startTimeInfo">...</b>.</li>
                     <li>Do not refresh or close the browser during the examination.</li>
                     <li>Ensure stable and uninterrupted internet connection.</li>
                 </ul>
             </div>
-
         </div>
 
         <div class="rightCol">
-
             <div class="section">
                 <h2 style="margin-top:0;">🔐 Candidate Sign In</h2>
                 
@@ -245,7 +53,6 @@
 
                 <div id="photoCaptureBox">
                     <button id="captureBtn" type="button">Capture Photo</button>
-                    
                     <video id="camVideo" autoplay playsinline></video>
                     <canvas id="camCanvas" style="display:none;"></canvas>
                     <img id="capturedPhoto" />
@@ -255,7 +62,7 @@
                 <input type="text" id="shikshaId" placeholder="Enter your Shiksha ID">
 
                 <label>OTEP (One-Time Examination Password)</label>
-                <input type="password" id="otep" placeholder="DDMMYYYY">
+                <input type="password" id="otep" placeholder="Password">
 
                 <button id="signinBtn" onclick="signin()">Sign In</button>
 
@@ -263,7 +70,6 @@
 
                 <div id="linkBtn" onclick="openExam()">Open Examination</div>
             </div>
-
         </div>
     </div>
 
@@ -271,381 +77,8 @@
 
 </div>
 
-<script>
-    /* ==========================
-       ✅ CONFIG
-       ========================== */
-    const correctID = "NTC980320";
-    const correctOTEP = "20031998";
-
-    // ✅ UPDATED EXAM LINK
-    const EXAM_LINK = "https://gemini.google.com/share/eaaac3662099";
-
-    // ✅ UPDATED SCHEDULE: TODAY (03 Feb 2026), 08:00 PM - 10:00 PM
-    const examStartDateTime = new Date("2026-02-03T20:00:00");
-    const examEndDateTime   = new Date("2026-02-03T22:00:00");
-
-    // ✅ Exam duration after candidate starts
-    const EXAM_DURATION_MS = 120 * 60 * 1000; // 120 minutes
-
-    let isPhotoCaptured = false;
-    let isSignedIn = false;
-    let examSessionRunning = false;
-
-    let fullscreenLockEnabled = false;
-    let examTimerInterval = null;
-
-    /* ==========================
-       ✅ SOUND SYSTEM
-       ========================== */
-    function playBeep({ frequency = 880, duration = 200, volume = 0.25, type = "sine" } = {}) {
-        try {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            const ctx = new AudioContext();
-            
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-
-            osc.type = type;
-            osc.frequency.value = frequency;
-            gain.gain.value = volume;
-
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-
-            osc.start();
-            setTimeout(() => {
-                osc.stop();
-                ctx.close();
-            }, duration);
-        } catch (e) {
-            console.warn("Audio blocked or not supported:", e);
-        }
-    }
-
-    function playExamStartSound() {
-        playBeep({ frequency: 950, duration: 180, volume: 0.22, type: "sine" });
-        setTimeout(() => playBeep({ frequency: 1200, duration: 140, volume: 0.22, type: "sine" }), 220);
-        setTimeout(() => playBeep({ frequency: 1500, duration: 120, volume: 0.20, type: "sine" }), 430);
-    }
-
-    function playTenSecWarningSound() {
-        playBeep({ frequency: 650, duration: 160, volume: 0.35, type: "triangle" });
-        setTimeout(() => playBeep({ frequency: 650, duration: 160, volume: 0.35, type: "triangle" }), 200);
-        setTimeout(() => playBeep({ frequency: 850, duration: 240, volume: 0.45, type: "triangle" }), 430);
-    }
-
-    function playExamOverSound() {
-        const pattern = [
-            { f: 400, d: 400, v: 0.6, t: "square" },
-            { f: 400, d: 400, v: 0.6, t: "square" },
-            { f: 350, d: 500, v: 0.7, t: "square" },
-            { f: 350, d: 500, v: 0.7, t: "square" },
-            { f: 300, d: 700, v: 0.8, t: "square" }
-        ];
-
-        let delay = 0;
-        pattern.forEach(p => {
-            setTimeout(() => playBeep({ frequency: p.f, duration: p.d, volume: p.v, type: p.t }), delay);
-            delay += (p.d + 180);
-        });
-    }
-
-    /* ==========================
-       ✅ FULLSCREEN LOCK
-       ========================== */
-    async function enterFullscreen() {
-        try {
-            const el = document.documentElement;
-            if (!document.fullscreenElement) {
-                if (el.requestFullscreen) return el.requestFullscreen();
-                if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
-            }
-        } catch (e) {
-            console.warn("Fullscreen blocked:", e);
-        }
-    }
-
-    async function exitFullscreen() {
-        try {
-            if (document.fullscreenElement) {
-                if (document.exitFullscreen) return document.exitFullscreen();
-                if (document.webkitExitFullscreen) return document.webkitExitFullscreen();
-            }
-        } catch (e) {
-            console.warn("Exit fullscreen blocked:", e);
-        }
-    }
-
-    function enableFullscreenLock() {
-        fullscreenLockEnabled = true;
-
-        document.addEventListener("fullscreenchange", async () => {
-            if (fullscreenLockEnabled && !document.fullscreenElement) {
-                await enterFullscreen();
-            }
-        });
-    }
-
-    /* ==========================
-       ✅ COUNTDOWN (Top + Sign-in)
-       ========================== */
-    function updateCountdownUI() {
-        const now = new Date().getTime();
-        const start = examStartDateTime.getTime();
-        const end = examEndDateTime.getTime();
-
-        const c1 = document.getElementById("countdown");
-        const c2 = document.getElementById("countdown2");
-
-        // ✅ BEFORE EXAM START
-        if (now < start) {
-            const dist = start - now;
-            
-            const d = Math.floor(dist / (1000 * 60 * 60 * 24));
-            const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((dist % (1000 * 60)) / 1000);
-
-            c1.innerHTML = `⏳ Exam starts in: ${d}d : ${h}h : ${m}m : ${s}s`;
-            c2.innerHTML = "";
-            return;
-        }
-
-        // ✅ EXAM WINDOW OPEN
-        if (now >= start && now <= end) {
-            const remaining = end - now;
-
-            const h = Math.floor(remaining / (1000 * 60 * 60));
-            const m = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((remaining % (1000 * 60)) / 1000);
-
-            const msg = `✅ Exam window OPEN | Closes in: ${h}h : ${m}m : ${s}s`;
-            
-            c1.innerHTML = msg;
-            c2.innerHTML = msg;
-            return;
-        }
-
-        // ✅ EXAM WINDOW CLOSED
-        const msg = "⛔ Examination window CLOSED (10:00 PM completed)";
-        c1.innerHTML = msg;
-        c2.innerHTML = msg;
-
-        document.getElementById("linkBtn").style.display = "none";
-    }
-
-    updateCountdownUI();
-    setInterval(updateCountdownUI, 1000);
-
-    /* ==========================
-       ✅ SIGN-IN
-       ========================== */
-    function signin() {
-        const id = document.getElementById("shikshaId").value.trim();
-        const otp = document.getElementById("otep").value.trim();
-
-        const errorBox = document.getElementById("errorBox");
-        const linkBtn = document.getElementById("linkBtn");
-
-        if (!isPhotoCaptured) {
-            isSignedIn = false;
-            linkBtn.style.display = "none";
-            
-            errorBox.style.display = "block";
-            errorBox.style.background = "rgba(255,0,0,0.18)";
-            errorBox.style.borderLeft = "4px solid #ef4444";
-            errorBox.innerHTML = "❌ Photo capture is mandatory before Sign In.";
-            return;
-        }
-
-        if (id === correctID && otp === correctOTEP) {
-            isSignedIn = true;
-            errorBox.style.display = "none";
-
-            const now = new Date().getTime();
-            if (now >= examStartDateTime.getTime() && now <= examEndDateTime.getTime()) {
-                linkBtn.style.display = "block";
-            } else {
-                linkBtn.style.display = "none";
-                
-                errorBox.style.display = "block";
-                errorBox.style.background = "rgba(255,165,0,0.15)";
-                errorBox.style.borderLeft = "4px solid #f59e0b";
-                errorBox.innerHTML = 
-                    "⚠️ Signed in successfully, but exam link is available only during the scheduled time window.";
-            }
-        } else {
-            isSignedIn = false;
-            linkBtn.style.display = "none";
-
-            errorBox.style.display = "block";
-            errorBox.style.background = "rgba(255,0,0,0.18)";
-            errorBox.style.borderLeft = "4px solid #ef4444";
-            errorBox.innerHTML = "❌ Invalid Shiksha ID or OTEP. Please try again.";
-        }
-    }
-
-    /* ==========================
-       ✅ OPEN EXAM
-       ========================== */
-    function openExam() {
-        const errorBox = document.getElementById("errorBox");
-        const now = new Date().getTime();
-        const start = examStartDateTime.getTime();
-        const end = examEndDateTime.getTime();
-
-        if (!isSignedIn) {
-            errorBox.style.display = "block";
-            errorBox.style.background = "rgba(255,0,0,0.18)";
-            errorBox.style.borderLeft = "4px solid #ef4444";
-            errorBox.innerHTML = "❌ Please Sign In first.";
-            return;
-        }
-
-        if (now < start) {
-            errorBox.style.display = "block";
-            errorBox.style.background = "rgba(255,165,0,0.15)";
-            errorBox.style.borderLeft = "4px solid #f59e0b";
-            errorBox.innerHTML = 
-                "⚠️ Exam not started yet.<br>Opens at <b>03.02.2026 08:00 PM</b>.";
-            return;
-        }
-        if (now > end) {
-            errorBox.style.display = "block";
-            errorBox.style.background = "rgba(255,0,0,0.18)";
-            errorBox.style.borderLeft = "4px solid #ef4444";
-            errorBox.innerHTML = 
-                "⛔ Exam window CLOSED.<br>Closed at <b>10:00 PM on 03.02.2026</b>.";
-            return;
-        }
-
-        if (examSessionRunning) {
-            errorBox.style.display = "block";
-            errorBox.style.background = "rgba(255,165,0,0.15)";
-            errorBox.style.borderLeft = "4px solid #f59e0b";
-            errorBox.innerHTML = "⚠️ Exam session already running.";
-            return;
-        }
-
-        examSessionRunning = true;
-
-        enableFullscreenLock();
-        enterFullscreen();
-        
-        playExamStartSound();
-        window.open(EXAM_LINK, "_blank");
-
-        errorBox.style.display = "block";
-        errorBox.style.background = "rgba(0,255,0,0.12)";
-        errorBox.style.borderLeft = "4px solid #22c55e";
-        errorBox.innerHTML = 
-            "✅ Exam Started! Fullscreen enabled.<br>You have <b>120 minutes</b>.";
-
-        const sessionStart = Date.now();
-        const sessionEnd = sessionStart + EXAM_DURATION_MS;
-
-        let tenSecWarningPlayed = false;
-
-        examTimerInterval = setInterval(() => {
-            const current = Date.now();
-            const remaining = sessionEnd - current;
-
-            if (!tenSecWarningPlayed && remaining <= 10000 && remaining > 0) {
-                tenSecWarningPlayed = true;
-                playTenSecWarningSound();
-            }
-
-            if (remaining <= 0) {
-                clearInterval(examTimerInterval);
-                examTimerInterval = null;
-                
-                playExamOverSound();
-                fullscreenLockEnabled = false;
-                exitFullscreen();
-
-                errorBox.style.display = "block";
-                errorBox.style.background = "rgba(255,0,0,0.18)";
-                errorBox.style.borderLeft = "4px solid #ef4444";
-                errorBox.innerHTML = 
-                    "⛔ Exam Time Over! <b>120 minutes completed</b>.";
-                
-                examSessionRunning = false;
-            }
-        }, 1000);
-    }
-
-    /* ==========================
-       ✅ PHOTO CAPTURE
-       ========================== */
-    (function () {
-        const captureBtn = document.getElementById("captureBtn");
-        const video = document.getElementById("camVideo");
-        const canvas = document.getElementById("camCanvas");
-        const photo = document.getElementById("capturedPhoto");
-
-        let stream = null;
-        let isCameraOn = false;
-
-        async function startCamera() {
-            stream = await navigator.mediaDevices.getUserMedia({ 
-                video: true, 
-                audio: false 
-            });
-            
-            video.srcObject = stream;
-            video.style.display = "block";
-            photo.style.display = "none";
-
-            await new Promise(resolve => {
-                video.onloadedmetadata = () => resolve();
-            });
-
-            await video.play();
-            isCameraOn = true;
-        }
-
-        function stopCamera() {
-            if (stream) {
-                stream.getTracks().forEach(t => t.stop());
-                stream = null;
-            }
-            video.srcObject = null;
-            video.style.display = "none";
-            isCameraOn = false;
-        }
-
-        function capturePhoto() {
-            const ctx = canvas.getContext("2d");
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            photo.src = canvas.toDataURL("image/png");
-            photo.style.display = "block";
-
-            stopCamera();
-
-            isPhotoCaptured = true;
-            captureBtn.style.display = "none";
-        }
-
-        captureBtn.addEventListener("click", async () => {
-            try {
-                if (!isCameraOn) {
-                    await startCamera();
-                } else {
-                    capturePhoto();
-                }
-            } catch (err) {
-                console.error(err);
-                stopCamera();
-                alert("Camera access error: " + err.message);
-            }
-        });
-    })();
-</script>
+<script src="config.js"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
